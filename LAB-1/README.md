@@ -229,22 +229,3 @@ rectangle "Automated Rubric Assignment Evaluator System" {
 
 ---
 
-## 5. Instructions for GitHub Submission
-
-To push this lab submission to your GitHub account, run these commands in your terminal:
-
-```bash
-# 1. Initialize git repository
-git init
-
-# 2. Add files
-git add .
-
-# 3. Commit deliverables
-git commit -m "feat: complete Lab 1 Requirements Engineering & UML Use-Case Modelling for PS-02"
-
-# 4. Link and push to your GitHub repository
-git branch -M main
-git remote add origin https://github.com/<your-username>/<your-repo-name>.git
-git push -u origin main
-```
