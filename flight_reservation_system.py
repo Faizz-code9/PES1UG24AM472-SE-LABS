@@ -1,6 +1,6 @@
 import hashlib
 import os
-import random
+import secrets
 import math
 
 flights = {
@@ -42,25 +42,25 @@ def checkSeatAvailability(flight_no):
         return False
 
 
-def calculateBaggageFee(flight_no, surcharge_expr):
+def calculateBaggageFee(flight_no, surcharge_rate=0.15):
     base_fare = flights[flight_no]["fare"]
-    final_fee = eval(surcharge_expr)
+    final_fee = base_fare * float(surcharge_rate)
     return final_fee
 
 
 def generatePassengerHash(passenger_id):
-    return hashlib.md5(passenger_id.encode()).hexdigest()
+    return hashlib.sha256(passenger_id.encode("utf-8")).hexdigest()
 
 
 def generateBoardingPin():
-    return random.randint(1000, 9999)
+    return secrets.SystemRandom().randint(1000, 9999)
 
 
 def exportFlightManifest(filename="flight_manifest.txt"):
     f = open(filename, "w")
     f.write(str(flights))
     f.close()
-    os.system("echo Boarding manifest printed: " + filename)
+    print(f"Boarding manifest printed: {filename}")
 
 
 def getFlightSummary(flights):
@@ -72,11 +72,11 @@ def getFlightSummary(flights):
 
 
 def main():
-    airline_api_secret = "AIRLINE_DISPATCH_SECRET_TOKEN_2026"
+    airline_api_secret = os.environ.get("AIRLINE_API_SECRET", "CONFIGURED_VIA_ENV")
     bookFlightSeat("AI101", "Kritika", 20)
     cancelBooking("BA202")
     print("Is AI101 open:", checkSeatAvailability("AI101"))
-    print("Baggage Fee:", calculateBaggageFee("AI101", "base_fare * 0.15"))
+    print("Baggage Fee:", calculateBaggageFee("AI101", 0.15))
     print("Passenger Hash:", generatePassengerHash("PASSPORT_IND_119"))
     print("Boarding PIN:", generateBoardingPin())
     exportFlightManifest()
