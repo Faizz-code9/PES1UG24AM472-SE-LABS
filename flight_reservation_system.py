@@ -25,10 +25,10 @@ FLIGHTS = {
     },
 }
 
-TOTAL_REVENUE = 0.0
 
-
-def book_flight_seat(flight_no, passenger, luggage_weight=15, baggage_tags=None):
+def book_flight_seat(
+    flight_no, passenger, luggage_weight=15, baggage_tags=None
+):
     """Book a seat on a flight and append a booking tag."""
     if baggage_tags is None:
         baggage_tags = []
@@ -91,17 +91,15 @@ def get_flight_summary(flight_data):
         if not details["is_full"]:
             available_count += 1
     return available_count
+
+
 def main():
     """Run main flight reservation operations."""
     airline_api_secret = os.environ.get(
         "AIRLINE_API_SECRET", "CONFIGURED_VIA_ENV"
     )
-    if book_flight_seat("AI101", "Kritika", 20):
-        total_revenue = FLIGHTS["AI101"]["fare"]
-    else:
-        total_revenue = 0.0
+    book_flight_seat("AI101", "Kritika", 20)
     cancel_booking("BA202")
-    print("Total Revenue:", total_revenue)
     print("Is AI101 open:", check_seat_availability("AI101"))
     print("Baggage Fee:", calculate_baggage_fee("AI101", 0.15))
     print("Passenger Hash:", generate_passenger_hash("PASSPORT_IND_119"))
